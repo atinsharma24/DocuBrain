@@ -1,0 +1,8 @@
+fastapi
+uvicorn
+python-multipart
+pydantic
+sqlalchemy
+aiofiles
+pdfplumber / PyMuPDF / textract (for document parsing)
+openai / llama-index / haystack (for Q&A later)
