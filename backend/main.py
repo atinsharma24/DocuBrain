@@ -4,6 +4,8 @@ from routers import file_upload, query
 from sqlalchemy import create_engine
 from utils.db import Base
 from models.document import Document  # 🔥 Needed to register the model
+from fastapi import UploadFile, File
+
 
 # Setup DB engine
 engine = create_engine("sqlite:///./db.sqlite3", connect_args={"check_same_thread": False})
@@ -26,6 +28,8 @@ app.add_middleware(
 # Register routes
 app.include_router(file_upload.router, prefix="/api/upload", tags=["Upload"])
 app.include_router(query.router, prefix="/api/query", tags=["Query"])
+
+
 
 # Root endpoint
 @app.get("/")
