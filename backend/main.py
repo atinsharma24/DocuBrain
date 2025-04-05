@@ -1,14 +1,20 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from routers import file_upload, query
-from routers import file_upload, query
-from utils.db import create_db
+from sqlalchemy import create_engine
+from utils.db import Base
+from models.document import Document  # 🔥 Needed to register the model
 
+# Setup DB engine
+engine = create_engine("sqlite:///./db.sqlite3", connect_args={"check_same_thread": False})
+
+# Create tables
+Base.metadata.create_all(bind=engine)
+
+# Initialize FastAPI app
 app = FastAPI()
 
-create_db()  # 🔥 create tables on startup
-
-# Allow all for dev; tighten later in prod
+# CORS middleware (Allow all in dev)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -21,6 +27,7 @@ app.add_middleware(
 app.include_router(file_upload.router, prefix="/api/upload", tags=["Upload"])
 app.include_router(query.router, prefix="/api/query", tags=["Query"])
 
+# Root endpoint
 @app.get("/")
 def root():
     return {"message": "Welcome to DocuBrain API!"}

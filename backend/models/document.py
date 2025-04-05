@@ -1,9 +1,12 @@
-from sqlmodel import Field, SQLModel
+from sqlalchemy import Column, Integer, String, DateTime, Text
 from datetime import datetime
-from typing import Optional
+from utils.db import Base  # make sure this is your declarative_base()
 
-class Document(SQLModel, table=True):
-    id: Optional[int] = Field(default=None, primary_key=True)
-    filename: str
-    upload_time: datetime
-    path: str
+class Document(Base):
+    __tablename__ = "documents"
+
+    id = Column(Integer, primary_key=True, index=True)
+    filename = Column(String, nullable=False)
+    path = Column(String, nullable=False)
+    upload_time = Column(DateTime, default=datetime.utcnow)
+    content = Column(Text, nullable=True)

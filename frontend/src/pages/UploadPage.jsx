@@ -2,42 +2,24 @@ import { useState } from "react";
 import axios from "axios";
 
 function UploadPage() {
-  const [file, setFile] = useState(null);
+  const [file, setFile] = useState(null); // ✅ state for selected file
 
-//   const handleUpload = async (e) => {
-//     e.preventDefault();
-//     if (!file) return;
-
-//     const formData = new FormData();
-//     formData.append("file", file);
-
-//     try {
-//       const res = await axios.post("http://localhost:8000/api/upload", formData);
-//       alert("Uploaded: " + res.data.info);
-//     } catch (err) {
-//       alert("Upload failed");
-//       console.error(err);
-//     }
-//   };
-
-const handleUpload = async (e) => {
+  const handleUpload = async (e) => {
     e.preventDefault();
-    if (!file) return;
-  
+    if (!file) return alert("Please select a file");
+
     const formData = new FormData();
-    formData.append('file', file);
-  
+    formData.append("file", file);
+
     try {
-      const res = await axios.post('http://localhost:8000/api/upload', formData);
-      console.log(res.data); // ✅ see full response
-      alert("Uploaded: " + res.data.filename); // ✅ works now!
+      const res = await axios.post("http://localhost:8000/api/upload", formData);
+      console.log(res.data);
+      alert("Uploaded: " + res.data.filename); // ✅ filename should be present
     } catch (err) {
       console.error("Upload failed", err);
       alert("Upload failed");
     }
   };
-  
-  
 
   return (
     <div className="p-6">
@@ -56,4 +38,3 @@ const handleUpload = async (e) => {
 }
 
 export default UploadPage;
-Uploaded: undefined
